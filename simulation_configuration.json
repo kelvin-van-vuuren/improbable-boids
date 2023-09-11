@@ -1,0 +1,53 @@
+{
+  "schema_bundle_uri": "./compiled_schema/compiled_schema.sb",
+  "simulation_configuration": {
+    "simulation_duration": "10s",
+    "runtime_configuration": {
+      "execution_mode": "EXECUTION_MODE_AS_FAST_AS_POSSIBLE",
+      "world_bounds": {
+        "x": 99,
+        "z": 99
+      },
+      "advanced_configuration": {
+        "logging_configuration": {
+          "log_mode": "LOG_MODE_CONSOLE",
+          "default_log_level": "LOG_LEVEL_INFO"
+        }
+      }
+    },
+    "system_configuration": {
+      "system_specifications": [
+        {
+          "system_bundle_uri": "./my_movement_system",
+          "system_info": {
+            "layer": "movement_layer",
+            "command": "./my_movement_system_binary",
+            "tick_rate": "0.1s",
+            "write_components": [54]
+          },
+          "load_balancing": {
+            "entity_id_sharding": {
+              "num_shards": 1
+            }
+          }
+        },
+        {
+          "system_bundle_uri": "./lattice_developer_tools",
+          "system_info": {
+            "layer": "digital_rain",
+            "command": "./digital_rain_system_binary 20 20 0 10 0 10",
+            "tick_rate": "0.1s",
+            "write_components": [
+              54
+            ]
+          },
+          "load_balancing": {
+            "entity_id_sharding": {
+              "num_shards": 1
+            }
+          }
+        }
+      ]
+    }
+  }
+}

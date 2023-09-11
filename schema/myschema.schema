@@ -1,0 +1,12 @@
+package kelvin;
+
+component Velocity {
+    id = 1001;
+    double value = 1;
+}
+
+component Direction {
+    id = 1002;
+    double value = 1;
+}
+

@@ -1,0 +1,149 @@
+
+’	
+.improbable/restricted/system_components.schema
+improbable.restricted"—
+1improbable.restricted.Connection.ConnectionStatus"ConnectionStatus* improbable.restricted.Connection2
+UNKNOWN2$
+AWAITING_WORKER_CONNECTION 2
+	CONNECTED 2
+DISCONNECTED *…
+ improbable.restricted.Connection"
+Connection2G
+status 25
+31improbable.restricted.Connection.ConnectionStatus2!
+'data_latency_ms 2
+X2%
+*connected_since_utc 2
+X8*B
+.'improbable.restricted.DisconnectRequest"DisconnectRequest*D
+0(improbable.restricted.DisconnectResponse"DisconnectResponse*ì
+?$improbable.restricted.PlayerIdentity"PlayerIdentity2!
+Aplayer_identifier 2
+2
+Dprovider 2
+2
+Imetadata 2
+20
+improbable.restricted.System"System(;P2ç
+5improbable.restricted.Worker"Worker(<:
+7	worker_id 2
+:
+8worker_type 2
+::
+9
+connection 2$
+" improbable.restricted.ConnectionJg
+5
+disconnect"'improbable.restricted.DisconnectRequest*(improbable.restricted.DisconnectResponse0P2Å
+O"improbable.restricted.PlayerClient"PlayerClient(=:C
+Qplayer_identity 2(
+&$improbable.restricted.PlayerIdentityP
+≤
+"improbable/standard_library.schema
+
+improbable*T
+improbable.WorkerAttributeSet"WorkerAttributeSet2
+		attribute B
+*y
+improbable.WorkerRequirementSet"WorkerRequirementSet2:
+attribute_set B!
+improbable.WorkerAttributeSet*j
+>improbable.Coordinates"Coordinates2
+?x 2
+2
+@y 2
+X2
+Az 2
+X8*h
+Eimprobable.EdgeLength"
+EdgeLength2
+Fx 2
+2
+Gy 2
+X2
+Hz 2
+X8*s
+gimprobable.ComponentInterest"ComponentInterest2:
+´queries B&
+$"improbable.ComponentInterest.Query*˝
+h"improbable.ComponentInterest.Query"Query*improbable.ComponentInterest2F
+i
+constraint 20
+.,improbable.ComponentInterest.QueryConstraint2$
+lfull_snapshot_result :
+2#
+mresult_component_id B
+2
+~	frequency :
+*‡
+Å,improbable.ComponentInterest.QueryConstraint"QueryConstraint*improbable.ComponentInterest2O
+Ñsphere_constraint :1
+/-improbable.ComponentInterest.SphereConstraint2S
+Öcylinder_constraint :3
+1/improbable.ComponentInterest.CylinderConstraint2I
+Übox_constraint :.
+,*improbable.ComponentInterest.BoxConstraint2`
+árelative_sphere_constraint :9
+75improbable.ComponentInterest.RelativeSphereConstraint2d
+àrelative_cylinder_constraint :;
+97improbable.ComponentInterest.RelativeCylinderConstraint2Z
+ârelative_box_constraint :6
+42improbable.ComponentInterest.RelativeBoxConstraint2%
+äentity_id_constraint :
+2%
+ãcomponent_constraint :
+2K
+åand_constraint 	B0
+.,improbable.ComponentInterest.QueryConstraint2J
+çor_constraint 
+B0
+.,improbable.ComponentInterest.QueryConstraint*≤
+ê-improbable.ComponentInterest.SphereConstraint"SphereConstraint*improbable.ComponentInterest2-
+ëcenter 2
+improbable.Coordinates2
+íradius 2
+X8 *∂
+ï/improbable.ComponentInterest.CylinderConstraint"CylinderConstraint*improbable.ComponentInterest2-
+ñcenter 2
+improbable.Coordinates2
+óradius 2
+X8 *∆
+ö*improbable.ComponentInterest.BoxConstraint"BoxConstraint*improbable.ComponentInterest2-
+õcenter 2
+improbable.Coordinates23
+úedge_length 2
+improbable.EdgeLengthX80*ë
+ü5improbable.ComponentInterest.RelativeSphereConstraint"RelativeSphereConstraint*improbable.ComponentInterest2
+†radius 2
+8*ï
+£7improbable.ComponentInterest.RelativeCylinderConstraint"RelativeCylinderConstraint*improbable.ComponentInterest2
+§radius 2
+8*•
+ß2improbable.ComponentInterest.RelativeBoxConstraint"RelativeBoxConstraint*improbable.ComponentInterest21
+®edge_length 2
+improbable.EdgeLength82¨
+!improbable.EntityAcl"	EntityAcl(2:7
+(read_acl 2#
+!improbable.WorkerRequirementSet:F
+.component_write_acl J'
+!improbable.WorkerRequirementSetP2F
+3improbable.Metadata"Metadata(5:
+9entity_type 2
+P2W
+Qimprobable.Position"Position(6:,
+Scoords 2
+improbable.CoordinatesP2/
+Yimprobable.Persistence"Persistence(7P2m
+bimprobable.Interest"Interest(::B
+dcomponent_interest J$
+improbable.ComponentInterestP
+°
+myschema.schema
+kelvin2=
+kelvin.Velocity"Velocity(È:
+value 2
+P2?
+kelvin.Direction"	Direction(Í:
+
+value 2
+P
