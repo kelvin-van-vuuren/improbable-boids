@@ -11,7 +11,7 @@
 #include <random>
 
 static constexpr double random_lower_bound = 0.1;
-static constexpr double random_upper_bound = 1;
+static constexpr double random_upper_bound = 0.2;
 static constexpr double vision_radius = 1;
 static constexpr double field_of_vision = 1;
 
@@ -48,8 +48,8 @@ void CreateEntities(System_Handle system_handle) {
 
     auto position = Position{
         Coordinates{static_cast<double>(row), 0, static_cast<double>(col)}};
-    auto velocity = Velocity{random_velocity_val};
-    auto direction = Direction{};
+    auto velocity = Velocity{random_velocity_val, 0, random_velocity_val};
+    auto acceleration = Acceleration{0.1};
 
     auto position_component_instance = System_ComponentInstanceType{
         Position::kComponentId, reinterpret_cast<uint8_t *>(&position),
@@ -59,13 +59,13 @@ void CreateEntities(System_Handle system_handle) {
         Velocity::kComponentId, reinterpret_cast<uint8_t *>(&velocity),
         sizeof(velocity), "movement_layer"};
 
-    auto direction_component_instance = System_ComponentInstanceType{
-        Direction::kComponentId, reinterpret_cast<uint8_t *>(&direction),
-        sizeof(velocity), "movement_layer"};
+    auto acceleration_component_instance = System_ComponentInstanceType{
+        Acceleration::kComponentId, reinterpret_cast<uint8_t *>(&acceleration),
+        sizeof(acceleration), "movement_layer"};
 
     std::array<System_ComponentInstanceType, 3> components = {
         position_component_instance, velocity_component_instance,
-        direction_component_instance};
+        acceleration_component_instance};
     if (auto rc = System_CreateEntity(system_handle, components.data(),
                                       components.size());
         rc != SYSTEM_STATUS_CODE_SUCCESS) {
@@ -85,7 +85,7 @@ System_StatusCode TickCallback(System_Handle system_handle,
   // Create objects to store corresponding components of the current entity
   auto position = std::make_unique<Position>();
   auto velocity = std::make_unique<Velocity>();
-  auto direction = std::make_unique<Direction>();
+  auto acceleration = std::make_unique<Acceleration>();
 
   // Iterate over the entity iterator
   while (!System_IterationFinished(entity_iterator)) {
@@ -109,13 +109,13 @@ System_StatusCode TickCallback(System_Handle system_handle,
       return SYSTEM_STATUS_CODE_ABORT;
     }
 
-    // Get the current entity's direction component
+    // Get the current entity's acceleration component
     if (auto rc = System_GetComponent(
-            entity_iterator, Direction::kComponentId,
-            reinterpret_cast<uint8_t *>(direction.get()), sizeof(*direction));
+            entity_iterator, Acceleration::kComponentId,
+            reinterpret_cast<uint8_t *>(acceleration.get()), sizeof(*acceleration));
         rc != SYSTEM_STATUS_CODE_SUCCESS) {
       SendLogMessage(system_handle, LOG_LEVEL_ERROR,
-                     "Failed to get current entity direction");
+                     "Failed to get current entity acceleration");
       return SYSTEM_STATUS_CODE_ABORT;
     }
 
@@ -160,14 +160,14 @@ System_StatusCode TickCallback(System_Handle system_handle,
       }
 
       // Get neighbour boid's direction component
-      auto neighbour_direction = std::make_unique<Direction>();
+      auto neighbour_acceleration = std::make_unique<Acceleration>();
       if (auto rc = System_Query_GetComponent(
-              query_handle.get(), Direction::kComponentId,
-              reinterpret_cast<uint8_t *>(neighbour_direction.get()),
-              sizeof(*neighbour_direction));
+              query_handle.get(), Acceleration::kComponentId,
+              reinterpret_cast<uint8_t *>(neighbour_acceleration.get()),
+              sizeof(*neighbour_acceleration));
           rc != SYSTEM_STATUS_CODE_SUCCESS) {
         SendLogMessage(system_handle, LOG_LEVEL_ERROR,
-                       "Failed to get neighbour boid's direction");
+                       "Failed to get neighbour boid's acceleration");
         return SYSTEM_STATUS_CODE_ABORT;
       }
 
@@ -191,16 +191,26 @@ System_StatusCode TickCallback(System_Handle system_handle,
                      "Failed to update current entity position");
       return SYSTEM_STATUS_CODE_ABORT;
     }
-
-    // Send updated direction to Lattice
+    
+    // Send updated velocity to Lattice
     if (auto rc = System_UpdateComponent(
-            entity_iterator, Direction::kComponentId,
-            reinterpret_cast<uint8_t *>(direction.get()), sizeof(Direction));
+            entity_iterator, Velocity::kComponentId,
+            reinterpret_cast<uint8_t *>(velocity.get()), sizeof(Velocity));
         rc != SYSTEM_STATUS_CODE_SUCCESS) {
       SendLogMessage(system_handle, LOG_LEVEL_ERROR,
-                     "Failed to update current entity position");
+                     "Failed to update current entity velocity");
       return SYSTEM_STATUS_CODE_ABORT;
     }
+
+    // // Send updated direction to Lattice
+    // if (auto rc = System_UpdateComponent(
+    //         entity_iterator, Direction::kComponentId,
+    //         reinterpret_cast<uint8_t *>(direction.get()), sizeof(Direction));
+    //     rc != SYSTEM_STATUS_CODE_SUCCESS) {
+    //   SendLogMessage(system_handle, LOG_LEVEL_ERROR,
+    //                  "Failed to update current entity position");
+    //   return SYSTEM_STATUS_CODE_ABORT;
+    // }
 
     // Advance the entity iterator
     if (auto rc = System_NextEntity(entity_iterator);

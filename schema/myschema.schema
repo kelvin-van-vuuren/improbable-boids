@@ -1,12 +1,18 @@
 package kelvin;
 
+component Vector3D {
+  id = 1000;
+  double x = 1;
+  double y = 1;
+  double z = 1;
+}
+
 component Velocity {
     id = 1001;
-    double value = 1;
+    Vector3D value = 1;
 }
 
-component Direction {
-    id = 1002;
-    double value = 1;
+component Acceleration {
+  id = 1003;
+  double value = 1;
 }
-
